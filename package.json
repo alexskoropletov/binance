@@ -1,6 +1,6 @@
 {
     "name": "@skoropletov/binance-api",
-    "version": "0.1.0",
+    "version": "0.1.6",
     "description": "A package to work Binance REST and WebSocket APIs, forked from Zoey Garveys's binance (zoeyg/binance) js library",
     "main": "./dist/index.js",
     "scripts": {

@@ -17,6 +17,18 @@ class BinanceRest {
     requestOptions: {}
   }
 
+  private candleLinesFields = [
+    "openTime",
+    "openPrice",
+    "highPrice",
+    "lowPrice",
+    "closePrice",
+    "volume",
+    "closeTime",
+    "quoteAssetVolume",
+    "numberOfTrades",
+  ];
+
   private logger: Logger;
 
   private drift: number;
@@ -61,7 +73,13 @@ class BinanceRest {
   }
 
   public async klines(query: any = {}) {
-    return this.makeRequest('api/v1/klines', query);
+    const data = await this.makeRequest('api/v1/klines', query);
+    return data.map(item => {
+      const response = {};
+      item.array.forEach((element, index) => {
+        response[this.candleLinesFields[index]] = element;
+      });
+    });
   }
 
   public async ticker24hr(query: any = {}) {
@@ -206,7 +224,22 @@ class BinanceRest {
       });
       return data;
     } catch(error) {
-      this.logger.error(error);
+      // eslint-disable-next-line no-console
+      // console.log('[!] error', error);
+      this.logger.warn(method);
+      this.logger.warn(url);
+      if (
+        error.isAxiosError
+        && error.response
+        && error.response.data
+      ) {
+        this.logger.warn(error.response.status);
+        this.logger.warn(error.response.statusText);
+        this.logger.error(error.response.data.code);
+        this.logger.error(error.response.data.msg);
+      } else {
+        this.logger.error(JSON.stringify(error));
+      }
       return false;
     }
   }
