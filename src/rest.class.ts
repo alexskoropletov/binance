@@ -9,7 +9,7 @@ class BinanceRest {
   private config: ConfigInterface = {
     key: '',
     secret: '',
-    recvWindow: false,
+    recvWindow: 0,
     timeout: 15000,
     disableBeautification: false,
     handleDrift: false,

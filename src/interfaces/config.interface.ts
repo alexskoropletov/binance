@@ -1,7 +1,7 @@
 interface Config {
   key: string;
   secret: string;
-  recvWindow?: boolean;
+  recvWindow?: number;
   timeout?: number;
   disableBeautification?: boolean;
   handleDrift?: boolean;
